@@ -28,9 +28,12 @@ def run_test(config, projects):
         print(f"Running matrix({name}) {index}/{len(names)}.")
         matrix_path = os.path.join(config.matrix_database_path, name, name + ".mtx")
         # print(matrix_path)
-        for project in projects: 
+        for project in projects:
             times = pr.run_project(
-                project=project, matrix_path=matrix_path, timeout=config.timeout
+                project=project,
+                matrix_path=matrix_path,
+                timeout=config.timeout,
+                device_id=config.device_id,
             )
             # transform from str to double
             times = [float(time) for time in times]
@@ -38,7 +41,7 @@ def run_test(config, projects):
             # write the result to file
             with open(os.path.join(config.save_folder, config.save_file), "a") as f:
                 f.write(f"{name},{project.get_name()},{str(sum(times) / len(times))}\n")
-        
+
         # write matrix name to cache
         ms.write_to_cache(name, os.path.join(config.save_folder, config.cache_file))
 

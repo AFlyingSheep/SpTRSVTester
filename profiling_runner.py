@@ -10,14 +10,25 @@ import os
 #   timeout: second
 # output:
 #   output_lines: [stdout lines splitted by \n]
-def run_executable(project, input_file, timeout):
+def run_executable(project, input_file, device_id, timeout):
     executable = project.get_run_command(input_file)
+    env = os.environ.copy()
+    env["CUDA_VISIBLE_DEVICES"] = str(device_id)
+
     try:
         # print(f"Running command: {executable}")
         # split commaned to list
         executable_list = executable.split()
         # print(executable_list)
-        result = subprocess.run(executable, shell=True, capture_output=True, text=True,errors='replace', timeout=timeout)
+        result = subprocess.run(
+            executable,
+            shell=True,
+            capture_output=True,
+            text=True,
+            errors='replace',
+            timeout=timeout,
+            env=env
+        )
         result.check_returncode()  # Raise an exception if the process exited with a non-zero status
         output_lines = result.stdout.strip().split("\n")
         return output_lines
@@ -51,7 +62,7 @@ def get_run_time(project, output):
     return solving_times
 
 
-def run_project(project, matrix_path, timeout):
-    output = run_executable(project, matrix_path, timeout)
+def run_project(project, matrix_path, device_id, timeout):
+    output = run_executable(project, matrix_path, device_id, timeout)
     solving_times = get_run_time(project, output)
     return solving_times

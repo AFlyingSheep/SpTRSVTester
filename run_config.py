@@ -52,10 +52,10 @@ class MixSpTRSVWithLevelSet:
 
 class RunConfig:
     def __init__(self):
-        self.run_mode = RUN_MODE.RUN_FROM_RULES
+        self.run_mode = RUN_MODE.RUN_FROM_FILE
 
         self.cache_file = "out.cache"
-        self.matrix_file = "test_matrix_name.txt"
+        self.matrix_file = "mix_matrix_name.txt"
 
         self.matrix_database_path = "/staff/zhaoyang/database/sparse-matrix/"
 
@@ -64,3 +64,5 @@ class RunConfig:
 
         self.timeout = 90
         self.save_folder = ""
+
+        self.device_id = 1
