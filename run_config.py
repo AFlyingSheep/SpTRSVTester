@@ -33,7 +33,22 @@ class YYSpTRSV:
         return r'solving time\s*=\s*([\d.]+)\s*'
     def get_name(self):
         return "YYSpTRSV"
-        
+
+class MixSpTRSVWithGraph:
+    def get_run_command(self, matrix_path):
+        return "./bin/mixsptrsv " + matrix_path
+    def get_extract_re(self):
+        return r'cuda graph time:\s*([\d.]+)\s*ms'
+    def get_name(self):
+        return "MixSpTRSVWithGraph"
+
+class MixSpTRSVWithLevelSet:
+    def get_run_command(self, matrix_path):
+        return "./bin/mixsptrsv " + matrix_path
+    def get_extract_re(self):
+        return r'level set time:\s*([\d.]+)\s*ms'
+    def get_name(self):
+        return "MixSpTRSVWithLevelSet"
 
 class RunConfig:
     def __init__(self):

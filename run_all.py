@@ -59,5 +59,7 @@ if __name__ == "__main__":
     config = RunConfig()
     config.save_folder = folder_name
 
-    projects = [rc.TileSpTRSV()]
+    # projects = [rc.TileSpTRSV()]
+    # projects = [rc.YYSpTRSV(), rc.TileSpTRSV()]
+    projects = [rc.MixSpTRSVWithGraph(), rc.MixSpTRSVWithLevelSet()]
     run_test(config=config, projects=projects)
