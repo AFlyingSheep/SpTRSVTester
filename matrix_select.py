@@ -19,6 +19,7 @@ def matrix_download(matrix_name, destpath="/staff/zhaoyang/database/sparse-matri
     else:
         pass
 
+
 # select the matrix which the non_zero count > 10,0000
 # return ssgetpy
 def select_matrix():
@@ -45,6 +46,7 @@ def write_to_cache(matrix_name, cache_file="cache.txt"):
     with open(cache_file, "a") as f:
         f.write(f"{matrix_name}\n")
 
+
 class MatrixSelector:
     def __init__(self, config):
         self.config = config
@@ -61,7 +63,6 @@ class MatrixSelector:
 
         matrix_name = matrix_name - cache_matrix_name
         return matrix_name
-
 
 
 def run_test(result_path):

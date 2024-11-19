@@ -25,9 +25,9 @@ def run_executable(project, input_file, device_id, timeout):
             shell=True,
             capture_output=True,
             text=True,
-            errors='replace',
+            errors="replace",
             timeout=timeout,
-            env=env
+            env=env,
         )
         result.check_returncode()  # Raise an exception if the process exited with a non-zero status
         output_lines = result.stdout.strip().split("\n")
@@ -49,8 +49,8 @@ def run_executable(project, input_file, device_id, timeout):
 def get_run_time(project, output):
     solving_times = []
     solving_time_pattern = re.compile(project.get_extract_re())
-    if (len(output) == 0 or output[0] == 'Error'):
-        return ['9999.9999']
+    if len(output) == 0 or output[0] == "Error":
+        return ["9999.9999"]
 
     for line in output:
         match = solving_time_pattern.search(line)

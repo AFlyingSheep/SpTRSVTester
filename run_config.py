@@ -2,9 +2,11 @@ import ssgetpy
 import os
 from enum import Enum
 
+
 class RUN_MODE(Enum):
     RUN_FROM_FILE = 1
     RUN_FROM_RULES = 2
+
 
 # def extract_base(lines):
 #     return extract_solving_time(lines, r'solve used\s*([\d.]+)')
@@ -18,37 +20,50 @@ class RUN_MODE(Enum):
 #         return ['9999.9999']
 #     return extract_solving_time(lines, r'Elapsed time:\s*([\d.]+)\s*ms.')
 
+
 class TileSpTRSV:
     def get_run_command(self, matrix_path):
         return "./bin/tilesptrsv -d $CUDA_VISIBLE_DEVICES " + matrix_path
+
     def get_extract_re(self):
-        return r'CUDA TileSpTRSV runtime\s*([\d.]+)\sms'
+        return r"CUDA TileSpTRSV runtime\s*([\d.]+)\sms"
+
     def get_name(self):
         return "TileSpTRSV"
+
 
 class YYSpTRSV:
     def get_run_command(self, matrix_path):
         return "./bin/YYSpTRSV " + matrix_path
+
     def get_extract_re(self):
-        return r'solving time\s*=\s*([\d.]+)\s*'
+        return r"solving time\s*=\s*([\d.]+)\s*"
+
     def get_name(self):
         return "YYSpTRSV"
+
 
 class MixSpTRSVWithGraph:
     def get_run_command(self, matrix_path):
         return "./bin/mixsptrsv " + matrix_path
+
     def get_extract_re(self):
-        return r'cuda graph time:\s*([\d.]+)\s*ms'
+        return r"cuda graph time:\s*([\d.]+)\s*ms"
+
     def get_name(self):
         return "MixSpTRSVWithGraph"
+
 
 class MixSpTRSVWithLevelSet:
     def get_run_command(self, matrix_path):
         return "./bin/mixsptrsv " + matrix_path
+
     def get_extract_re(self):
-        return r'level set time:\s*([\d.]+)\s*ms'
+        return r"level set time:\s*([\d.]+)\s*ms"
+
     def get_name(self):
         return "MixSpTRSVWithLevelSet"
+
 
 class RunConfig:
     def __init__(self):
