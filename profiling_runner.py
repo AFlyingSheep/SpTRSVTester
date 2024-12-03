@@ -15,30 +15,41 @@ def run_executable(project, input_file, device_id, timeout):
     env = os.environ.copy()
     env["CUDA_VISIBLE_DEVICES"] = str(device_id)
 
-    try:
-        # print(f"Running command: {executable}")
-        # split commaned to list
-        executable_list = executable.split()
-        # print(executable_list)
-        result = subprocess.run(
-            executable,
-            shell=True,
-            capture_output=True,
-            text=True,
-            errors="replace",
-            timeout=timeout,
-            env=env,
-        )
-        result.check_returncode()  # Raise an exception if the process exited with a non-zero status
-        output_lines = result.stdout.strip().split("\n")
-        return output_lines
-    except subprocess.CalledProcessError as e:
-        print(f"Error running {executable}: {e}", file=sys.stderr)
-        print("Standard Error:", e.stderr)
-        return ["Error"]
-    except subprocess.TimeoutExpired as e:
-        print(f"Timeout running {executable}: {e}", file=sys.stderr)
-        return ["Error"]
+    retry_time = 0
+    while retry_time < 15:
+        try:
+            # print(f"Running command: {executable}")
+            # split commaned to list
+            executable_list = executable.split()
+            # print(executable_list)
+            result = subprocess.run(
+                executable,
+                shell=True,
+                capture_output=True,
+                text=True,
+                errors="replace",
+                timeout=timeout,
+                env=env,
+            )
+            result.check_returncode()  # Raise an exception if the process exited with a non-zero status
+            output_lines = result.stdout.strip().split("\n")
+            print("Success to get output.")
+            return output_lines
+
+        except subprocess.CalledProcessError as e:
+            print(f"Error running {executable}: {e}", file=sys.stderr)
+            print("Standard Error:", e.stderr)
+            retry_time += 1
+            # return ["Error"]
+
+        except subprocess.TimeoutExpired as e:
+            print(f"Timeout running {executable}: {e}", file=sys.stderr)
+            # retry_time += 1
+            return ["Error"]
+
+        print(f"Retry time: {retry_time}")
+
+    return ["Error"]
 
 
 # input:
