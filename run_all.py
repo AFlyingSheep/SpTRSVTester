@@ -39,8 +39,17 @@ def run_test(config, projects):
             times = [float(time) for time in times]
 
             # write the result to file
-            with open(os.path.join(config.save_folder, config.save_file), "a") as f:
-                f.write(f"{name},{project.get_name()},{str(sum(times) / len(times))}\n")
+            if len(times) != len(project.get_name()):
+                print(
+                    f"Error: {len(times)} times for {len(project.get_name())} projects."
+                )
+                return
+
+            # print(times)
+            # print(project.get_name())
+            for time, project_name in zip(times, project.get_name()):
+                with open(os.path.join(config.save_folder, config.save_file), "a") as f:
+                    f.write(f"{name},{project_name},{str(time)}\n")
 
         # write matrix name to cache
         ms.write_to_cache(name, os.path.join(config.save_folder, config.cache_file))
@@ -64,5 +73,6 @@ if __name__ == "__main__":
 
     # projects = [rc.TileSpTRSV()]
     # projects = [rc.YYSpTRSV(), rc.TileSpTRSV()]
-    projects = [rc.MixSpTRSVWithGraph(), rc.MixSpTRSVWithLevelSet()]
+    # projects = [rc.MixSpTRSVWithGraph(), rc.MixSpTRSVWithLevelSet()]
+    projects = [rc.MixSpTRSVAll()]
     run_test(config=config, projects=projects)

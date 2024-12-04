@@ -59,14 +59,16 @@ def run_executable(project, input_file, device_id, timeout):
 #   solving_times: [seconds]
 def get_run_time(project, output):
     solving_times = []
-    solving_time_pattern = re.compile(project.get_extract_re())
-    if len(output) == 0 or output[0] == "Error":
-        return ["9999.9999"]
-
-    for line in output:
-        match = solving_time_pattern.search(line)
-        if match:
-            solving_times.append(match.group(1))
+    for re_str in project.get_extract_re():
+        solving_time_pattern = re.compile(re_str)
+        if len(output) == 0 or output[0] == "Error":
+            solving_times.append("9999.9999")
+        else:
+            for line in output:
+                match = solving_time_pattern.search(line)
+                if match:
+                    solving_times.append(match.group(1))
+    
     # print(output)
     # print(solving_times)
 
