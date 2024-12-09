@@ -33,10 +33,10 @@ def select_matrix():
 def read_cache(cache_file="cache.txt"):
     # Read the cache file and return a set of processed matrix names.
     if not os.path.exists(cache_file):
-        return set()
+        return []
 
     with open(cache_file, "r") as f:
-        processed_matrices = {line.strip() for line in f}
+        processed_matrices = [line.strip() for line in f]
     return processed_matrices
 
 
@@ -53,13 +53,15 @@ class MatrixSelector:
 
     def get_matrix_names(self):
         cache_file = os.path.join(self.config.save_folder, self.config.cache_file)
-        cache_matrix_name = read_cache(cache_file=cache_file)
+        cache_matrix_name = set(read_cache(cache_file=cache_file))
         if self.config.run_mode == RUN_MODE.RUN_FROM_FILE:
             # read matrix names from matrix file
             matrix_name = read_cache(cache_file=self.config.matrix_file)
         elif self.config.run_mode == RUN_MODE.RUN_FROM_RULES:
             matrixs = select_matrix()
-            matrix_name = {matrix.name for matrix in matrixs}
+            matrix_name = [matrix.name for matrix in matrixs]
 
-        matrix_name = matrix_name - cache_matrix_name
-        return matrix_name
+        matrix_name_ret = [
+            item for item in matrix_name if item not in cache_matrix_name
+        ]
+        return matrix_name_ret
