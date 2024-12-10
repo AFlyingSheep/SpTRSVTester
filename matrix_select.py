@@ -54,6 +54,7 @@ class MatrixSelector:
     def get_matrix_names(self):
         cache_file = os.path.join(self.config.save_folder, self.config.cache_file)
         cache_matrix_name = set(read_cache(cache_file=cache_file))
+        matrix_name = []
         if self.config.run_mode == RUN_MODE.RUN_FROM_FILE:
             # read matrix names from matrix file
             matrix_name = read_cache(cache_file=self.config.matrix_file)

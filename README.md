@@ -2,6 +2,10 @@
 
 A general script for testing sptrsv.
 
+## What should we do before run it?
+
+Just modify the `config.ini`!
+
 ## How to run it?
 
 Just run:

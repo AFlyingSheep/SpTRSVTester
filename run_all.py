@@ -55,24 +55,12 @@ def run_test(config, projects):
         ms.write_to_cache(name, os.path.join(config.save_folder, config.cache_file))
 
 
-import datetime
-
 if __name__ == "__main__":
-    # 获取当前年份、月份、日期
-    year = datetime.datetime.now().year
-    month = datetime.datetime.now().month
-    day = datetime.datetime.now().day
-    folder_name = str(year) + "-" + str(month) + "-" + str(day)
-
-    # 如果不存在文件夹，则创建文件夹
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
-
     config = RunConfig()
-    config.save_folder = folder_name
 
     # projects = [rc.TileSpTRSV()]
     # projects = [rc.YYSpTRSV(), rc.TileSpTRSV()]
     # projects = [rc.MixSpTRSVWithGraph(), rc.MixSpTRSVWithLevelSet()]
     projects = [rc.MixSpTRSVAll()]
+    # projects = [rc.CudaSparse()]
     run_test(config=config, projects=projects)
